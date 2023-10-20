@@ -1,0 +1,9 @@
+# Database
+MYSQL_USERNAME: root
+MYSQL_PASSWORD: ""
+MYSQL_HOST: 127.0.0.1
+MYSQL_PORT: 3306
+MYSQL_DATABASE: animal_shelter
+
+# Server Config
+ACTIVE_PROFILE: dev
