@@ -1,9 +1,9 @@
 package io.sobczykm.github.animalshelter.repository.Implementation;
 
-import io.sobczykm.github.animalshelter.domain.Employee;
+import io.sobczykm.github.animalshelter.domain.Role;
 import io.sobczykm.github.animalshelter.exception.ApiException;
-import io.sobczykm.github.animalshelter.repository.EmployeeRepository;
-import io.sobczykm.github.animalshelter.rowmapper.EmployeeRowMapper;
+import io.sobczykm.github.animalshelter.repository.RoleRepository;
+import io.sobczykm.github.animalshelter.rowmapper.RoleRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,22 +12,22 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
-import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_EMPLOYEE_BY_EMAIL_QUERY;
+import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_ROLE_BY_ID_QUERY;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class EmployeeRepositoryImpl implements EmployeeRepository {
+public class RoleRepositoryImpl implements RoleRepository {
     private final NamedParameterJdbcTemplate jdbc;
 
     @Override
-    public Employee getEmployeeByEmail(String email) {
-        log.info("Retrieving employee by email: {}", email);
+    public Role getRoleByEmployeeId(Long employeeId) {
+        log.info("Fetching role for employee id: {}", employeeId);
         try {
-            Employee employee = jdbc.queryForObject(SELECT_EMPLOYEE_BY_EMAIL_QUERY, Map.of("email", email), new EmployeeRowMapper());
-            return employee;
+            Role role = jdbc.queryForObject(SELECT_ROLE_BY_ID_QUERY, Map.of("employeeId", employeeId), new RoleRowMapper());
+            return role;
         } catch (EmptyResultDataAccessException exception) {
-            throw new ApiException("No employee found by email: " + email);
+            throw new ApiException("No role found by employeeId: " + employeeId);
         } catch (Exception exception) {
             throw new ApiException("An error occurred. Please try again");
         }
