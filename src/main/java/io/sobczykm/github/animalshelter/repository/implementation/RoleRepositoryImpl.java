@@ -1,4 +1,4 @@
-package io.sobczykm.github.animalshelter.repository.Implementation;
+package io.sobczykm.github.animalshelter.repository.implementation;
 
 import io.sobczykm.github.animalshelter.domain.Role;
 import io.sobczykm.github.animalshelter.exception.ApiException;

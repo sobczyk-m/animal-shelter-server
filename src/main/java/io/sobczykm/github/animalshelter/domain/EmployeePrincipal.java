@@ -1,5 +1,7 @@
 package io.sobczykm.github.animalshelter.domain;
 
+import io.sobczykm.github.animalshelter.dto.EmployeeDTO;
+import io.sobczykm.github.animalshelter.dtomapper.EmployeeDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -45,5 +47,9 @@ public class EmployeePrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return employee.isEnabled();
+    }
+
+    public EmployeeDTO getEmployee() {
+        return EmployeeDTOMapper.fromEmployee(employee, role);
     }
 }

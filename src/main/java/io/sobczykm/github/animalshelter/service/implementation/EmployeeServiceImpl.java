@@ -20,6 +20,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return mapToEmployeeDTO(employeeRepository.getEmployeeByEmail(email));
     }
 
+    @Override
+    public EmployeeDTO getEmployeeById(Long id) {
+        return mapToEmployeeDTO(employeeRepository.getEmployeeById(id));
+    }
+
     private EmployeeDTO mapToEmployeeDTO(Employee employee) {
         return EmployeeDTOMapper.fromEmployee(employee, roleRepository.getRoleByEmployeeId(employee.getEmployeeId()));
     }

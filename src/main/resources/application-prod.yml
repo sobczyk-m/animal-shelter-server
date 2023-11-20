@@ -7,3 +7,6 @@ MYSQL_DATABASE: animal_shelter
 
 # Server Config
 ACTIVE_PROFILE: prod
+
+#Token Config
+JWT_SECRET: "r{yGsuYn7k9[qs&"

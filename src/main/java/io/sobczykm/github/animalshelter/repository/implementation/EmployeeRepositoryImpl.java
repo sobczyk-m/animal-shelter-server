@@ -1,4 +1,4 @@
-package io.sobczykm.github.animalshelter.repository.Implementation;
+package io.sobczykm.github.animalshelter.repository.implementation;
 
 import io.sobczykm.github.animalshelter.domain.Employee;
 import io.sobczykm.github.animalshelter.exception.ApiException;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Map;
 
 import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_EMPLOYEE_BY_EMAIL_QUERY;
+import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_EMPLOYEE_BY_ID_QUERY;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,14 +23,25 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public Employee getEmployeeByEmail(String email) {
-        log.info("Retrieving employee by email: {}", email);
+        log.info("Retrieving employee by email");
         try {
             Employee employee = jdbc.queryForObject(SELECT_EMPLOYEE_BY_EMAIL_QUERY, Map.of("email", email), new EmployeeRowMapper());
             return employee;
         } catch (EmptyResultDataAccessException exception) {
-            throw new ApiException("No employee found by email: " + email);
+            throw new ApiException("No employee found by email");
         } catch (Exception exception) {
             throw new ApiException("An error occurred. Please try again");
+        }
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        try {
+            return jdbc.queryForObject(SELECT_EMPLOYEE_BY_ID_QUERY, Map.of("employeeId", id), new EmployeeRowMapper());
+        } catch (EmptyResultDataAccessException exception) {
+            throw new ApiException("No employee found by id: " + id);
+        } catch (Exception exception) {
+            throw new ApiException("An error occurred. Please try again.");
         }
     }
 }

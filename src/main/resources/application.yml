@@ -21,6 +21,9 @@ spring:
       mode: never
       continue-on-error: false
 
+jwt:
+  secret: ${JWT_SECRET}
+
 application:
   title: Animal_Shelter
   version: 1.0

@@ -25,7 +25,7 @@ public class CustomEmployeeDetailsService implements UserDetailsService {
             log.error("Employee not found in the database");
             throw new UsernameNotFoundException("Employee not found in the database");
         } else {
-            log.info("Employee found in the database: {}", email);
+            log.info("Employee found in the database");
             return new EmployeePrincipal(employee, roleRepository.getRoleByEmployeeId(employee.getEmployeeId()));
         }
     }
