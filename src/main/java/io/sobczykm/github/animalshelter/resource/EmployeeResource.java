@@ -8,6 +8,7 @@ import io.sobczykm.github.animalshelter.form.LoginForm;
 import io.sobczykm.github.animalshelter.provider.TokenProvider;
 import io.sobczykm.github.animalshelter.service.EmployeeService;
 import io.sobczykm.github.animalshelter.service.RoleService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import static io.sobczykm.github.animalshelter.constant.Constants.TOKEN_PREFIX;
 import static io.sobczykm.github.animalshelter.utils.EmployeeUtils.getAuthenticatedEmployee;
 import static io.sobczykm.github.animalshelter.utils.EmployeeUtils.getLoggedInEmployee;
+import static java.time.LocalDateTime.now;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.security.authentication.UsernamePasswordAuthenticationToken.unauthenticated;
 
@@ -47,8 +52,7 @@ public class EmployeeResource {
                                 .message("Employee retrieved")
                                 .status(OK)
                                 .statusCode(OK.value())
-                                .build()
-                );
+                                .build());
     }
 
     @PostMapping("/login")
@@ -60,13 +64,52 @@ public class EmployeeResource {
                         HttpResponse.builder()
                                 .timeStamp(LocalDateTime.now().toString())
                                 .data(Map.of(
-                                        "Employee", employeeService.getEmployeeByEmail(loginForm.getEmail()),
-                                        "Token", tokenProvider.createAccessToken(getEmployeePrincipal(employee))))
+                                        "employee", employeeService.getEmployeeByEmail(loginForm.getEmail()),
+                                        "access_token", tokenProvider.createAccessToken(getEmployeePrincipal(employee)),
+                                        "refresh_token", tokenProvider.createRefreshToken(getEmployeePrincipal(employee))))
                                 .message("Login success")
                                 .status(OK)
                                 .statusCode(OK.value())
-                                .build()
-                );
+                                .build());
+    }
+
+    @GetMapping("/refresh/token")
+    public ResponseEntity<HttpResponse> refreshToken(HttpServletRequest request) {
+        if (isHeaderAndTokenValid(request)) {
+            String token = request.getHeader(AUTHORIZATION).substring(TOKEN_PREFIX.length());
+            EmployeeDTO employee = employeeService.getEmployeeById(Long.valueOf(tokenProvider.getSubject(token)));
+            return ResponseEntity
+                    .ok()
+                    .body(
+                            HttpResponse.builder()
+                                    .timeStamp(LocalDateTime.now().toString())
+                                    .data(Map.of(
+                                            "employee", employee,
+                                            "access_token", tokenProvider.createAccessToken(getEmployeePrincipal(employee)),
+                                            "refresh_token", token))
+                                    .message("Token refreshed")
+                                    .status(OK)
+                                    .statusCode(OK.value())
+                                    .build());
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(
+                            HttpResponse.builder()
+                                    .timeStamp(now().toString())
+                                    .message("Refresh Token missing or invalid")
+                                    .status(BAD_REQUEST)
+                                    .statusCode(BAD_REQUEST.value())
+                                    .build());
+        }
+    }
+
+    private boolean isHeaderAndTokenValid(HttpServletRequest request) {
+        return request.getHeader(AUTHORIZATION) != null
+                && request.getHeader(AUTHORIZATION).startsWith(TOKEN_PREFIX)
+                && tokenProvider.isTokenValid(
+                request.getHeader(AUTHORIZATION).substring(TOKEN_PREFIX.length()),
+                Long.valueOf(tokenProvider.getSubject(request.getHeader(AUTHORIZATION).substring(TOKEN_PREFIX.length()))));
     }
 
     private EmployeePrincipal getEmployeePrincipal(EmployeeDTO employee) {

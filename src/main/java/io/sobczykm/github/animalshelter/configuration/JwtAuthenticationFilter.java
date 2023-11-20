@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Long employeeId = getEmployeeId(token);
 
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                if (tokenProvider.isTokeValid(token, employeeId)) {
+                if (tokenProvider.isTokenValid(token, employeeId)) {
                     List<GrantedAuthority> authorities = tokenProvider.getAuthoritiesFromToken(token);
                     Authentication authentication = tokenProvider.getAuthentication(employeeId, authorities, request);
                     SecurityContextHolder.getContext().setAuthentication(authentication);

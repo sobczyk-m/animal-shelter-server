@@ -50,12 +50,25 @@ public class TokenProvider {
                 .compact();
     }
 
+    public String createRefreshToken(EmployeePrincipal employeePrincipal) {
+        return Jwts.builder()
+                .header()
+                .add("alg", "HS256")
+                .add("type", "JWT")
+                .and()
+                .subject(String.valueOf(employeePrincipal.getEmployee().getEmployeeId()))
+                .issuedAt(new Date())
+                .expiration(new Date(currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
+                .signWith(getSignInKey(), Jwts.SIG.HS256)
+                .compact();
+    }
+
     private boolean isTokenExpired(String token) {
         Date expiration = getTokenClaims(token).getPayload().getExpiration();
         return expiration.before(new Date());
     }
 
-    public boolean isTokeValid(String token, Long employeeId) {
+    public boolean isTokenValid(String token, Long employeeId) {
         return Long.valueOf(getTokenClaims(token).getPayload().getSubject()).equals(employeeId) && !isTokenExpired(token);
     }
 
