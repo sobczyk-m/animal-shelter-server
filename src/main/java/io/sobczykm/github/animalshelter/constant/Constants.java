@@ -10,4 +10,5 @@ public class Constants {
     public static final String TOKEN_CANNOT_BE_VERIFIED = "Token cannot be verified";
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String EMPTY = "";
+    public static final String GENERIC_API_EXCEPTION_MESSAGE = "An error occurred. Please try again";
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
+import static io.sobczykm.github.animalshelter.constant.Constants.GENERIC_API_EXCEPTION_MESSAGE;
 import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_EMPLOYEE_BY_EMAIL_QUERY;
 import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_EMPLOYEE_BY_ID_QUERY;
 
@@ -30,7 +31,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         } catch (EmptyResultDataAccessException exception) {
             throw new ApiException("No employee found by email");
         } catch (Exception exception) {
-            throw new ApiException("An error occurred. Please try again");
+            throw new ApiException(GENERIC_API_EXCEPTION_MESSAGE);
         }
     }
 
@@ -41,7 +42,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         } catch (EmptyResultDataAccessException exception) {
             throw new ApiException("No employee found by id: " + id);
         } catch (Exception exception) {
-            throw new ApiException("An error occurred. Please try again.");
+            throw new ApiException(GENERIC_API_EXCEPTION_MESSAGE);
         }
     }
 }

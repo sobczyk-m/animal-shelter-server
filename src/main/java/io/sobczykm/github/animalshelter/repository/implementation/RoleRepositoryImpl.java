@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
+import static io.sobczykm.github.animalshelter.constant.Constants.GENERIC_API_EXCEPTION_MESSAGE;
 import static io.sobczykm.github.animalshelter.query.EmployeeQuery.SELECT_ROLE_BY_ID_QUERY;
 
 @Repository
@@ -29,7 +30,7 @@ public class RoleRepositoryImpl implements RoleRepository {
         } catch (EmptyResultDataAccessException exception) {
             throw new ApiException("No role found by employeeId: " + employeeId);
         } catch (Exception exception) {
-            throw new ApiException("An error occurred. Please try again");
+            throw new ApiException(GENERIC_API_EXCEPTION_MESSAGE);
         }
     }
 }
