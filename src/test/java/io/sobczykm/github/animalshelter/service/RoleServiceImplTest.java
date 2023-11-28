@@ -16,12 +16,12 @@ class RoleServiceImplTest {
     @Mock
     private RoleRepositoryImpl roleRepository;
     @InjectMocks
-    private RoleServiceImpl roleService;
+    private RoleServiceImpl underTest;
 
 
     @Test
     void getRoleByEmployeeId_shouldCallRepositoryMethod_whenCalled() {
-        roleService.getRoleByEmployeeId(1L);
+        underTest.getRoleByEmployeeId(1L);
         verify(roleRepository, times(1)).getRoleByEmployeeId(1L);
     }
 }
