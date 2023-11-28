@@ -1,4 +1,4 @@
-package io.sobczykm.github.animalshelter.service;
+package io.sobczykm.github.animalshelter.unit.service;
 
 import io.sobczykm.github.animalshelter.domain.Employee;
 import io.sobczykm.github.animalshelter.domain.Role;
@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class EmployeeServiceImplTest {
+class EmployeeServiceImplUnitTest {
     @Mock
     private EmployeeRepository employeeRepository;
     @Mock

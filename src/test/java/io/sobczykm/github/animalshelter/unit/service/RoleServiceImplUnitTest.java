@@ -1,4 +1,4 @@
-package io.sobczykm.github.animalshelter.service;
+package io.sobczykm.github.animalshelter.unit.service;
 
 import io.sobczykm.github.animalshelter.repository.implementation.RoleRepositoryImpl;
 import io.sobczykm.github.animalshelter.service.implementation.RoleServiceImpl;
@@ -12,7 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class RoleServiceImplTest {
+class RoleServiceImplUnitTest {
     @Mock
     private RoleRepositoryImpl roleRepository;
     @InjectMocks

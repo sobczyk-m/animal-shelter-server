@@ -1,4 +1,4 @@
-package io.sobczykm.github.animalshelter.repository;
+package io.sobczykm.github.animalshelter.unit.repository;
 
 import io.sobczykm.github.animalshelter.domain.Role;
 import io.sobczykm.github.animalshelter.exception.ApiException;
@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RoleRepositoryImplTest {
+class RoleRepositoryImplUnitTest {
     @Mock
     private NamedParameterJdbcTemplate jdbc;
     @InjectMocks
