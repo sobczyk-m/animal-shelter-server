@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RoleRepositoryImplTest {
     @Mock
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbc;
     @InjectMocks
     private RoleRepositoryImpl underTest;
     private Role role;
@@ -38,7 +38,7 @@ class RoleRepositoryImplTest {
 
     @Test
     void getRoleByEmployeeId_shouldReturnRole_whenIdIsValid() {
-        when(jdbcTemplate.queryForObject(anyString(), anyMap(), any(RoleRowMapper.class)))
+        when(jdbc.queryForObject(anyString(), anyMap(), any(RoleRowMapper.class)))
                 .thenReturn(role);
         Role result = underTest.getRoleByEmployeeId(employeeId);
         assertEquals(role.getRoleId(), result.getRoleId());
@@ -46,7 +46,7 @@ class RoleRepositoryImplTest {
 
     @Test
     void getRoleByEmployeeId_shouldThrowApiException_whenNoRoleFound() {
-        when(jdbcTemplate.queryForObject(anyString(), anyMap(), any(RoleRowMapper.class)))
+        when(jdbc.queryForObject(anyString(), anyMap(), any(RoleRowMapper.class)))
                 .thenThrow(EmptyResultDataAccessException.class);
         ApiException apiException = assertThrows(ApiException.class, () -> underTest.getRoleByEmployeeId(employeeId));
         assertEquals(format("No role found by employeeId: %d", employeeId), apiException.getMessage());
@@ -54,7 +54,7 @@ class RoleRepositoryImplTest {
 
     @Test
     void getRoleByEmployeeId_shouldThrowApiException_whenUnexpectedErrorOccurs() {
-        when(jdbcTemplate.queryForObject(anyString(), anyMap(), any(RoleRowMapper.class)))
+        when(jdbc.queryForObject(anyString(), anyMap(), any(RoleRowMapper.class)))
                 .thenThrow(RuntimeException.class);
         ApiException apiException = assertThrows(ApiException.class, () -> underTest.getRoleByEmployeeId(employeeId));
         assertEquals(GENERIC_API_EXCEPTION_MESSAGE, apiException.getMessage());
