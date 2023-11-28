@@ -12,10 +12,11 @@ architecture, ensuring a robust and scalable foundation for seamless operations.
 
 - Java 21
 - Spring boot 3
-- JWT
 - MySQL 8
-- JDBC
+- JDBC 
+- JWT
+- JUnit 5
+- Mockito
 - Lombok
 - Maven
 - Git
-- JUnit 5
