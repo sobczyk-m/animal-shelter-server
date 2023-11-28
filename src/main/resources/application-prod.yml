@@ -9,4 +9,4 @@ MYSQL_DATABASE: animal_shelter
 ACTIVE_PROFILE: prod
 
 #Token Config
-JWT_SECRET: "r{yGsuYn7k9[qs&"
+JWT_SECRET: "k5JlLiZCilP5uAuC8nTYHBthKXTA8pED4Ye0GTJ7ToA="
