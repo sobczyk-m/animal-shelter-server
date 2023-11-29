@@ -20,6 +20,7 @@ spring:
     init:
       mode: never
       continue-on-error: false
+      data-locations: classpath:prodSchema.sql,classpath:testSchema.sql
 
 jwt:
   secret: ${JWT_SECRET}

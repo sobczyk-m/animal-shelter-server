@@ -1,3 +1,4 @@
+# Prod/Dev DB
 CREATE SCHEMA IF NOT EXISTS animal_shelter;
 
 SET NAMES 'UTF8MB4';
